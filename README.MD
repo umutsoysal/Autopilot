@@ -8,4 +8,15 @@ Steps of the project:
 
 2- Place it in a real world map with actual position and target point ( cloud deployment) 
 
-3- 
+3- Write a controller to arrive the goal as quickly as possible
+
+
+How to run:
+
+Simply clone the repo and run boatSimulator.py
+
+
+
+
+
+
