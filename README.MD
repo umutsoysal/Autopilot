@@ -20,6 +20,9 @@ How to run:
 ![GitHub Logo](/Figure_1.png)
 
 
+[GitHub Logo](/worldmapimage.png)
+
+
 
 
 
