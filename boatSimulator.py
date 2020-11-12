@@ -77,7 +77,7 @@ class boat:
 		   
 		# plotting the cardioid 
 		for rad in rads: 
-		    r = +a + (a*np.cos(-rad))  
+		    r = +a + (a*-np.cos(rad))  
 		    plt.polar(rad,r,'g.')  
 		  
 		# display the polar plot 
