@@ -1,11 +1,23 @@
-import pygal
+import plotly.graph_objects as go
+import pandas as pd
+import matplotlib.pyplot as plt
+import pandas as pd
 
-worldmap_chart = pygal.maps.world.World()
-worldmap_chart.title = 'Some countries'
-worldmap_chart.add('F countries', ['fr', 'fi'])
-worldmap_chart.add('M countries', ['ma', 'mc', 'md', 'me', 'mg',
-                                   'mk', 'ml', 'mm', 'mn', 'mo',
-                                   'mr', 'mt', 'mu', 'mv', 'mw',
-                                   'mx', 'my', 'mz'])
-worldmap_chart.add('U countries', ['ua', 'ug', 'us', 'uy', 'uz'])
-worldmap_chart.render()
+
+df= pd.read_csv("coordinates.csv",delimiter=",")
+
+df2 = df[pd.to_numeric(df['longitude'],errors='coerce').notna()]
+
+fig = go.Figure()
+
+fig.add_trace(go.Scattergeo(
+    lon = df2.longitude,
+    lat = df2.latitude,
+    name="Boat"
+))
+
+fig.update_layout(
+        title = 'Current position of the boat',
+        geo_scope='world',
+    )
+fig.show()

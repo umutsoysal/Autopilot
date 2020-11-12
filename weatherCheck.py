@@ -58,6 +58,6 @@ def windSpeed(lat,lon):
 	    print(" City Not Found ") 
 
 	'''
-	print("Success")
+	#print("Success")
 	return x
 	

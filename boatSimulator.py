@@ -3,38 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import math 
 from weatherCheck import *   
+from utils import *
 
-
-# A visualization of the boat's polar diagram
-def polarDiagram():
-	# setting the axes 
-	# projection as polar 
-	plt.axes(projection = 'polar') 
-	# setting the length of  
-	# axis of cardioid 
-	a=4
-	  
-	# creating an array 
-	# containing the radian values 
-	rads = np.arange(0, (2 * np.pi), 0.01) 
-	   
-	# plotting the cardioid 
-	for rad in rads: 
-	    r = +a + (a*np.cos(-rad))  
-	    plt.polar(rad,r,'g.')  
-	  
-	# display the polar plot 
-	plt.show(block=False)
-	plt.title("polar diagram of the boat(test)")
-	plt.pause(5)
-	plt.close()
-
-
-def boatSpeed():
-
-	speed=10
-
-	return speed
 
 #The main class for boat object
 class boat:
@@ -103,7 +73,7 @@ if __name__ == "__main__":
 	#myboat.state.TWS=x['wind']['speed']
 	#print(myx)
 
-	myboat.state.TWS=(x['wind']['speed'])
+	myboat.state.TWS=meterpersecond2knot(x['wind']['speed'])
 	myboat.state.TWA=(x['wind']['deg'])
 
 	myboat.showState()
