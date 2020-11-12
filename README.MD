@@ -19,8 +19,9 @@ How to run:
 
 ![GitHub Logo](/Figure_1.png)
 
+The boat can be located on the world map visually
 
-[GitHub Logo](/worldmapimage.png)
+![GitHub Logo](/worldmapimage.png)
 
 
 
