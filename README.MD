@@ -13,7 +13,11 @@ Steps of the project:
 
 How to run:
 
-Simply clone the repo and run boatSimulator.py
+**Simply clone the repo and run boatSimulator.py**
+
+**NOTE: If you'll use it more than once please use your own API Keys for OpenWeather. It's Free!**
+
+![GitHub Logo](/Figure_1.png)
 
 
 
