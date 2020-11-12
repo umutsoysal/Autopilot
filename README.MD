@@ -15,6 +15,8 @@ How to run:
 
 Simply clone the repo and run boatSimulator.py
 
+![GitHub Logo](/Figure_1.png)
+
 
 
 
