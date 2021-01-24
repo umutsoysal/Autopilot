@@ -8,6 +8,8 @@ df= pd.read_csv("coordinates.csv",delimiter=",")
 
 df2 = df[pd.to_numeric(df['longitude'],errors='coerce').notna()]
 
+print(df2)
+
 fig = go.Figure()
 
 fig.add_trace(go.Scattergeo(

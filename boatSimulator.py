@@ -4,66 +4,18 @@ import matplotlib.pyplot as plt
 import math 
 from weatherCheck import *   
 from utils import *
+from datetime import datetime
+import time
+import pandas as pd
+from boat import *
 
 
-#The main class for boat object
-class boat:
-	# constant parameters
-	LOA=60 # imoca 60
-
-
-	def __init__(self,state):
-		self.state=state
-
-	class state:
-		
-		def __init__(self, lat=55, lon=34):
-			self.lat=lat
-			self.lon=lon
-			self.boatSpeed=12
-			self.heading=150
-			self.TWS=13
-			self.TWA=13
-
-		def showState(self):
-			print("Initial Boat State")
-			print('latitude: {} \t'.format(self.lat),'longitude: {} \t'.format(self.lon),'boat speed: {} \t'.format(self.boatSpeed),'heading: {} \t'.format(self.heading),'TWS: {} \t'.format(self.TWS),'TWA: {} \t'.format(self.TWA))
-
-	def showState(self):
-		self.state.showState()
-
-	# Polar Diagram of the Boat	
-	def polarDiagram(self):
-		# setting the axes 
-		# projection as polar 
-		plt.axes(projection = 'polar') 
-		# setting the length of  
-		# axis of cardioid 
-		a=4
-		  
-		# creating an array 
-		# containing the radian values 
-		rads = np.arange(0, (2 * np.pi), 0.01) 
-		   
-		# plotting the cardioid 
-		for rad in rads: 
-		    r = +a + (a*-np.cos(rad))  
-		    plt.polar(rad,r,'g.')  
-		  
-		# display the polar plot 
-		plt.show(block=False)
-		plt.title("polar diagram of the boat(test)")
-		plt.pause(5)
-		plt.close()
-
+## This starts the simulation.
 
 if __name__ == "__main__":
 
 	myboat=boat(boat.state(lat=22,lon=32))
-
 	myboat.polarDiagram()
-
-
 
 	print("test")
 	print(myboat.state.showState())
@@ -79,6 +31,66 @@ if __name__ == "__main__":
 	myboat.showState()
 
 
+	## TIME STEP (THS IS IMPORTANT CURRENTLY IT IS IN SECONDS)
+	dt=5
+	while True:
+
+		now = datetime.now()
+		current_time = now.strftime("%H:%M:%S")
+		
+		df= pd.read_csv("coordinates.csv",delimiter=",", index_col=0)
+		#log the position 
 
 
+		
+
+		R = 6378.1 #Radius of the Earth
+		brng = math.radians(myboat.state.heading) #Bearing is 90 degrees converted to radians.
+		d = myboat.state.boatSpeed #Distance in km
+
+		#lat2  52.20444 - the lat result I'm hoping for
+		#lon2  0.36056 - the long result I'm hoping for.
+
+		lat1 = math.radians(myboat.state.lat) #Current lat point converted to radians
+		lon1 = math.radians(myboat.state.lon) #Current long point converted to radians
+
+		lat2 = math.asin( math.sin(lat1)*math.cos(d/R) +
+		     math.cos(lat1)*math.sin(d/R)*math.cos(brng))
+
+		lon2 = lon1 + math.atan2(math.sin(brng)*math.sin(d/R)*math.cos(lat1),
+		             math.cos(d/R)-math.sin(lat1)*math.sin(lat2))
+
+		lat2 = math.degrees(lat2)
+		lon2 = math.degrees(lon2)
+
+		print(lat2)
+		print(lon2)
+
+
+		myboat.state.lat=lat2
+		myboat.state.lon=lon2
+
+		dfLatest=pd.DataFrame([[current_time,myboat.state.lat, myboat.state.lon]], columns=["timestamp","latitude","longitude"])
+		dfLatest=dfLatest.set_index("timestamp")
+		df=df.append(dfLatest)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		time.sleep(dt)
+
+		print("Logging")
+		df.to_csv("coordinates.csv", encoding='utf-8', index=True)
 
