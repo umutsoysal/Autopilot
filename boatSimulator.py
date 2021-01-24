@@ -11,7 +11,6 @@ from boat import *
 
 
 ## This starts the simulation.
-
 if __name__ == "__main__":
 
 	myboat=boat(boat.state(lat=22,lon=32))
@@ -33,42 +32,45 @@ if __name__ == "__main__":
 
 	## TIME STEP (THS IS IMPORTANT CURRENTLY IT IS IN SECONDS)
 	dt=5
+
+
 	while True:
 
+		#check the current time
 		now = datetime.now()
+		#format it, subject to change
 		current_time = now.strftime("%H:%M:%S")
-		
+		#read the dataset
 		df= pd.read_csv("coordinates.csv",delimiter=",", index_col=0)
 		#log the position 
 
 
 		
 
-		R = 6378.1 #Radius of the Earth
-		brng = math.radians(myboat.state.heading) #Bearing is 90 degrees converted to radians.
-		d = myboat.state.boatSpeed #Distance in km
-
-		#lat2  52.20444 - the lat result I'm hoping for
-		#lon2  0.36056 - the long result I'm hoping for.
-
-		lat1 = math.radians(myboat.state.lat) #Current lat point converted to radians
-		lon1 = math.radians(myboat.state.lon) #Current long point converted to radians
-
-		lat2 = math.asin( math.sin(lat1)*math.cos(d/R) +
-		     math.cos(lat1)*math.sin(d/R)*math.cos(brng))
-
-		lon2 = lon1 + math.atan2(math.sin(brng)*math.sin(d/R)*math.cos(lat1),
-		             math.cos(d/R)-math.sin(lat1)*math.sin(lat2))
-
-		lat2 = math.degrees(lat2)
-		lon2 = math.degrees(lon2)
-
-		print(lat2)
-		print(lon2)
+		
+		bearing = math.radians(myboat.state.heading) #Bearing is 90 degrees converted to radians.
+		
+		# This should be detailed.
+		distance = myboat.state.boatSpeed #Distance in km
+		
+		currentLat = math.radians(myboat.state.lat) #Current lat point converted to radians
+		currentLong = math.radians(myboat.state.lon) #Current long point converted to radians
 
 
-		myboat.state.lat=lat2
-		myboat.state.lon=lon2
+		nextLat,nextLong=calcNextPosition(bearing,distance,currentLat,currentLong)
+
+		
+
+		print(nextLat)
+		print(nextLong)
+
+
+
+	
+
+
+		myboat.state.lat=nextLat
+		myboat.state.lon=nextLong
 
 		dfLatest=pd.DataFrame([[current_time,myboat.state.lat, myboat.state.lon]], columns=["timestamp","latitude","longitude"])
 		dfLatest=dfLatest.set_index("timestamp")
