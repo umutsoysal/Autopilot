@@ -33,7 +33,6 @@ if __name__ == "__main__":
 	## TIME STEP (THS IS IMPORTANT CURRENTLY IT IS IN SECONDS)
 	dt=5
 
-
 	while True:
 
 		#check the current time
@@ -46,27 +45,20 @@ if __name__ == "__main__":
 
 
 		
-
-		
 		bearing = math.radians(myboat.state.heading) #Bearing is 90 degrees converted to radians.
 		
 		# This should be detailed.
-		distance = myboat.state.boatSpeed #Distance in km
+		distanceCovered = myboat.state.boatSpeed #Distance in km
 		
-		currentLat = math.radians(myboat.state.lat) #Current lat point converted to radians
-		currentLong = math.radians(myboat.state.lon) #Current long point converted to radians
+
+		currentLat = myboat.state.lat #Current lat point converted to radians
+		currentLong = myboat.state.lon #Current long point converted to radians
 
 
-		nextLat,nextLong=calcNextPosition(bearing,distance,currentLat,currentLong)
-
-		
+		nextLat,nextLong=calcNextPosition(bearing,distanceCovered,currentLat,currentLong)
 
 		print(nextLat)
 		print(nextLong)
-
-
-
-	
 
 
 		myboat.state.lat=nextLat
@@ -75,20 +67,6 @@ if __name__ == "__main__":
 		dfLatest=pd.DataFrame([[current_time,myboat.state.lat, myboat.state.lon]], columns=["timestamp","latitude","longitude"])
 		dfLatest=dfLatest.set_index("timestamp")
 		df=df.append(dfLatest)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 		time.sleep(dt)
